@@ -1,0 +1,41 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  constructor(private http: HttpClient) { }
+
+  save<T extends { id?: string }>(data: T, url: string): Observable<T> {
+    return data.id?.length ? this.put(data, url + '/' + data.id) : this.post(data, url);
+  }
+
+  get<T>(url: string, params?: any): Observable<T> {
+    const httpParams = this.formatParams(params);
+    return this.http.get(url, { params: httpParams }) as Observable<T>;
+  }
+
+  private post<T>(data: T, url: string): Observable<T> {
+    return this.http.post(url, data) as Observable<T>;
+  }
+
+  private put<T extends { id?: string }>(data: T, url: string): Observable<T> {
+    delete data.id;
+    return this.http.put(url, data) as Observable<T>;
+  }
+
+  private formatParams(params?: any): HttpParams {
+    let httpParams = new HttpParams();
+
+    // eslint-disable-next-line guard-for-in
+    for (const key in params) {
+      httpParams = httpParams.append(key, params[key]);
+    }
+
+    return httpParams;
+  }
+
+}
