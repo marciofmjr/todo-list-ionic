@@ -1,3 +1,5 @@
+import { ComponentsModule } from './../../components/components.module';
+import { LayoutModule } from './../../layout/layout.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +15,9 @@ import { DashboardPage } from './dashboard.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DashboardPageRoutingModule
+    DashboardPageRoutingModule,
+    LayoutModule,
+    ComponentsModule
   ],
   declarations: [DashboardPage]
 })
