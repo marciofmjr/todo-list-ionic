@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../components/components.module';
 import { FooterComponent } from './footer/footer.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { IonicModule } from '@ionic/angular';
@@ -13,7 +14,8 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    ComponentsModule
   ],
   exports: [
     FooterComponent,

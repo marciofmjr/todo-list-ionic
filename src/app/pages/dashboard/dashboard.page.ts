@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
 import { Item } from './../../models/item.model';
@@ -17,10 +17,15 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
     this.getItems();
+    this.reloadItems();
   }
 
   getItems(): void {
     this.items$ = this.itemApiService.getAll();
+  }
+
+  reloadItems(): void {
+    this.itemApiService.getReload().subscribe(reload => this.getItems());
   }
 
 }

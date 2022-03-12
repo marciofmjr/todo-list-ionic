@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { CreateItemComponent } from './create-item/create-item.component';
 import { ListItemComponent } from './list-item/list-item.component';
 import { ListGroupComponent } from './list-group/list-group.component';
 import { ListComponent } from './list/list.component';
@@ -9,14 +11,17 @@ import { CommonModule } from '@angular/common';
   declarations: [
     ListComponent,
     ListGroupComponent,
-    ListItemComponent
+    ListItemComponent,
+    CreateItemComponent
   ],
   imports: [
     IonicModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
-    ListComponent
+    ListComponent,
+    CreateItemComponent
   ]
 })
 export class ComponentsModule { }
