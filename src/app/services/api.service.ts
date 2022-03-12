@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -15,16 +16,20 @@ export class ApiService {
 
   get<T>(url: string, params?: any): Observable<T> {
     const httpParams = this.formatParams(params);
-    return this.http.get(url, { params: httpParams }) as Observable<T>;
+    return this.http.get(this.formatUrl(url), { params: httpParams }) as Observable<T>;
   }
 
   private post<T>(data: T, url: string): Observable<T> {
-    return this.http.post(url, data) as Observable<T>;
+    return this.http.post(this.formatUrl(url), data) as Observable<T>;
   }
 
   private put<T extends { id?: string }>(data: T, url: string): Observable<T> {
     delete data.id;
-    return this.http.put(url, data) as Observable<T>;
+    return this.http.put(this.formatUrl(url), data) as Observable<T>;
+  }
+
+  private formatUrl(url: string): string {
+    return environment.apiBaseUrl + '/' + url;
   }
 
   private formatParams(params?: any): HttpParams {

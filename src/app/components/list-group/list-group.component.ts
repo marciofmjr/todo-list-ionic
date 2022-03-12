@@ -1,4 +1,6 @@
+import { Observable } from 'rxjs';
 import { Component, OnInit, Input } from '@angular/core';
+import { Item } from 'src/app/models/item.model';
 
 @Component({
   selector: 'app-list-group',
@@ -8,6 +10,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ListGroupComponent implements OnInit {
 
   @Input() title: string;
+  @Input() items$: Observable<Item[]>;
 
   constructor() { }
 
