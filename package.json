@@ -9,7 +9,9 @@
     "start:server": "cd ../todo-list-node-api; npm run build; npm run start",
     "dev": "ionic serve -l",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng test --browsers ChromeHeadless",
+    "test:browser": "ng test",
+    "test:watch": "ng test --progress --watch",
     "test:dev": "ng test --progress --watch --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
