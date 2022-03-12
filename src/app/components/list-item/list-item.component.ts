@@ -1,3 +1,4 @@
+import { AlertController, IonItemSliding } from '@ionic/angular';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { Item } from './../../models/item.model';
@@ -12,14 +13,36 @@ export class ListItemComponent implements OnInit {
 
   @Input() item: Item;
 
-  constructor(private itemApiService: ItemApiService) { }
+  constructor(
+    private itemApiService: ItemApiService,
+    public alertController: AlertController
+  ) { }
 
   ngOnInit() {}
 
-  delete(id: string): void {
+  deleteItem(id: string): void {
     this.itemApiService.delete(id).subscribe(item => {
       this.itemApiService.reload();
     });
+  }
+
+  async delete(id: string, slidingItem: IonItemSliding): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Delete',
+      message: 'Delete this item?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => slidingItem.close()
+        }, {
+          text: 'Yes, delete',
+          handler: () => this.deleteItem(id)
+        }
+      ]
+    });
+    await alert.present();
   }
 
 }
