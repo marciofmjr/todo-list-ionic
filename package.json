@@ -10,6 +10,7 @@
     "dev": "ionic serve -l",
     "build": "ng build",
     "test": "ng test",
+    "test:dev": "ng test --progress --watch --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

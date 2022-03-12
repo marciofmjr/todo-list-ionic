@@ -1,3 +1,4 @@
+import { PipesModule } from './../pipes/pipes.module';
 import { FormsModule } from '@angular/forms';
 import { CreateItemComponent } from './create-item/create-item.component';
 import { ListItemComponent } from './list-item/list-item.component';
@@ -17,7 +18,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     IonicModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    PipesModule
   ],
   exports: [
     ListComponent,
