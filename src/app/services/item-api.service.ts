@@ -22,6 +22,10 @@ export class ItemApiService {
     this.reloadSubject.next(true);
   }
 
+  delete(id: string): Observable<Item> {
+    return this.apiService.delete(id, this.path);
+  }
+
   create(item: Item): Observable<Item> {
     return this.apiService.save(item, this.path);
   }

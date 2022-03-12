@@ -19,6 +19,10 @@ export class ApiService {
     return this.http.get(this.formatUrl(url), { params: httpParams }) as Observable<T>;
   }
 
+  delete<T>(id: string, url: string): Observable<T> {
+    return this.http.delete(this.formatUrl(url, id)) as Observable<T>;
+  }
+
   private post<T>(data: T, url: string): Observable<T> {
     return this.http.post(this.formatUrl(url), data) as Observable<T>;
   }
@@ -28,7 +32,8 @@ export class ApiService {
     return this.http.put(this.formatUrl(url), data) as Observable<T>;
   }
 
-  private formatUrl(url: string): string {
+  private formatUrl(url: string, id?: string): string {
+    url = id?.length ? url + '/' + id : url;
     return environment.apiBaseUrl + '/' + url;
   }
 
