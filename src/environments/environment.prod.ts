@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://localhost:3020'
+  apiBaseUrl: 'https://marciofmjr-todolist-api.herokuapp.com'
 };
