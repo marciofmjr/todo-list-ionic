@@ -4,4 +4,6 @@
   </ion-label>
 </ion-item-divider>
 
-<app-list-item *ngFor="let item of items" [item]="item"></app-list-item>
+<ng-container *ngFor="let item of items">
+  <app-list-item [item]="item" *ngIf="item.done === done"></app-list-item>
+</ng-container>

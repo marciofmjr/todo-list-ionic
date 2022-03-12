@@ -11,6 +11,7 @@ export class ListGroupComponent implements OnInit {
 
   @Input() title: string;
   @Input() items: Item[];
+  @Input() done: boolean;
 
   constructor() { }
 
