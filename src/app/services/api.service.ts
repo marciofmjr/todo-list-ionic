@@ -23,6 +23,12 @@ export class ApiService {
     return this.http.delete(this.formatUrl(url, id)) as Observable<T>;
   }
 
+  patch<T extends { id: string }>(data: T, url: string): Observable<T> {
+    const id = data.id;
+    delete data.id;
+    return this.http.patch(this.formatUrl(url, id), data) as Observable<T>;
+  }
+
   private post<T>(data: T, url: string): Observable<T> {
     return this.http.post(this.formatUrl(url), data) as Observable<T>;
   }

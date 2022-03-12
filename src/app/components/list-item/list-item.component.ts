@@ -20,8 +20,8 @@ export class ListItemComponent implements OnInit {
 
   ngOnInit() {}
 
-  deleteItem(id: string): void {
-    this.itemApiService.delete(id).subscribe();
+  changed(item: Item): void {
+    this.itemApiService.updateDone(item.id, item.done).subscribe();
   }
 
   async delete(id: string, slidingItem: IonItemSliding): Promise<void> {
@@ -36,7 +36,7 @@ export class ListItemComponent implements OnInit {
           handler: () => slidingItem.close()
         }, {
           text: 'Yes, delete',
-          handler: () => this.deleteItem(id)
+          handler: () => this.itemApiService.delete(id).subscribe()
         }
       ]
     });

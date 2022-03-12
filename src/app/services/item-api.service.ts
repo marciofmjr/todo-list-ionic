@@ -34,6 +34,10 @@ export class ItemApiService {
     }));
   }
 
+  updateDone(id: string, done: boolean) {
+    return this.apiService.patch({ id, done }, this.path);
+  }
+
   search(searchText: string): void {
     this.items = this.items.map(item => {
       item.visible = item.title.includes(searchText);

@@ -1,6 +1,6 @@
 <ion-item-sliding #slidingItem *ngIf="item.visible">
   <ion-item>
-    <ion-checkbox slot="start"></ion-checkbox>
+    <ion-checkbox (ionChange)="changed(item)" [(ngModel)]="item.done" slot="start"></ion-checkbox>
     <ion-label>{{ item.title }} <br> <span class="date">{{ item.createdAt | formatDate }}</span> </ion-label>
   </ion-item>
   <ion-item-options side="start">
