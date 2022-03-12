@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from './../components/components.module';
 import { FooterComponent } from './footer/footer.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
@@ -15,7 +16,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     IonicModule,
-    ComponentsModule
+    ComponentsModule,
+    ReactiveFormsModule
   ],
   exports: [
     FooterComponent,

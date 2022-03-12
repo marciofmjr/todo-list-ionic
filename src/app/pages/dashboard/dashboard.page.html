@@ -4,7 +4,12 @@
 
   <app-search-bar></app-search-bar>
 
-  <app-list [items]="items"></app-list>
+  <app-list [items]="items" *ngIf="atLeastOneVisible; else noneVisible"></app-list>
+
+  <ng-template #noneVisible>
+    <span class="not-found">No items found</span>
+  </ng-template>
+
 
 </ion-content>
 

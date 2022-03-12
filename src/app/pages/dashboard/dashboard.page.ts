@@ -12,6 +12,7 @@ import { ItemApiService } from './../../services/item-api.service';
 export class DashboardPage implements OnInit {
 
   items: Item[];
+  atLeastOneVisible = true;
 
   constructor(private itemApiService: ItemApiService) { }
 
@@ -21,7 +22,10 @@ export class DashboardPage implements OnInit {
   }
 
   setItems(): void {
-    this.itemApiService.getItems().subscribe(items => this.items = items);
+    this.itemApiService.getItems().subscribe(items => {
+      this.items = items;
+      this.atLeastOneVisible = this.items.some(item => item.visible);
+    });
   }
 
   reload(): void {

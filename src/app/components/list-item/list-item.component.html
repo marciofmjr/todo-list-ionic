@@ -1,4 +1,4 @@
-<ion-item-sliding #slidingItem>
+<ion-item-sliding #slidingItem *ngIf="item.visible">
   <ion-item>
     <ion-checkbox slot="start"></ion-checkbox>
     <ion-label>{{ item.title }} <br> <span class="date">{{ item.createdAt | formatDate }}</span> </ion-label>

@@ -29,14 +29,25 @@ export class ItemApiService {
 
   create(item: Item): Observable<Item> {
     return this.apiService.save(item, this.path).pipe(tap(createdItem => {
-      this.items.unshift(createdItem);
+      this.items.unshift({...createdItem, visible: true});
       this.notifyChange();
     }));
   }
 
+  search(searchText: string): void {
+    this.items = this.items.map(item => {
+      item.visible = item.title.includes(searchText);
+      return item;
+    });
+    this.notifyChange();
+  }
+
   getAll(): void {
     this.apiService.get<Item[]>(this.path).pipe(first()).subscribe(items => {
-      this.items = items;
+      this.items = items.map(item => {
+        item.visible = true;
+        return item;
+      });
       this.notifyChange();
     });
   }
