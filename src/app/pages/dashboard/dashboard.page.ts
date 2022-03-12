@@ -11,21 +11,21 @@ import { ItemApiService } from './../../services/item-api.service';
 })
 export class DashboardPage implements OnInit {
 
-  items$: Observable<Item[]>;
+  items: Item[];
 
   constructor(private itemApiService: ItemApiService) { }
 
   ngOnInit() {
-    this.getItems();
-    this.reloadItems();
+    this.setItems();
+    this.reload();
   }
 
-  getItems(): void {
-    this.items$ = this.itemApiService.getAll();
+  setItems(): void {
+    this.itemApiService.getItems().subscribe(items => this.items = items);
   }
 
-  reloadItems(): void {
-    this.itemApiService.getReload().subscribe(reload => this.getItems());
+  reload(): void {
+    this.itemApiService.getAll();
   }
 
 }

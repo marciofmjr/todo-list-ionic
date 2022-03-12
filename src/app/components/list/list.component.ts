@@ -10,7 +10,7 @@ import { Item } from './../../models/item.model';
 })
 export class ListComponent implements OnInit {
 
-  @Input() items$: Observable<Item[]>;
+  @Input() items: Item[];
 
   constructor() { }
 

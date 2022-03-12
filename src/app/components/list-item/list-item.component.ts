@@ -21,9 +21,7 @@ export class ListItemComponent implements OnInit {
   ngOnInit() {}
 
   deleteItem(id: string): void {
-    this.itemApiService.delete(id).subscribe(item => {
-      this.itemApiService.reload();
-    });
+    this.itemApiService.delete(id).subscribe();
   }
 
   async delete(id: string, slidingItem: IonItemSliding): Promise<void> {

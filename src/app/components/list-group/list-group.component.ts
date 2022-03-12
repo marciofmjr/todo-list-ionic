@@ -10,7 +10,7 @@ import { Item } from 'src/app/models/item.model';
 export class ListGroupComponent implements OnInit {
 
   @Input() title: string;
-  @Input() items$: Observable<Item[]>;
+  @Input() items: Item[];
 
   constructor() { }
 

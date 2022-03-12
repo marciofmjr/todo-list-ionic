@@ -1,4 +1,5 @@
 import { Observable, Subject } from 'rxjs';
+import { first, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
@@ -10,32 +11,42 @@ import { Item } from '../models/item.model';
 export class ItemApiService {
 
   path = 'items';
-  private reloadSubject = new Subject<boolean>();
+  items$ = new Subject<Item[]>();
+  items: Item[];
 
   constructor(private apiService: ApiService) { }
 
-  getReload(): Observable<boolean> {
-    return this.reloadSubject.asObservable();
-  }
-
-  reload(): void {
-    this.reloadSubject.next(true);
+  getItems(): Observable<Item[]> {
+    return this.items$.asObservable();
   }
 
   delete(id: string): Observable<Item> {
-    return this.apiService.delete(id, this.path);
+    return this.apiService.delete<Item>(id, this.path).pipe(tap(deletedItem => {
+      this.items = this.items.filter((item) => item.id !== deletedItem.id);
+      this.notifyChange();
+    }));
   }
 
   create(item: Item): Observable<Item> {
-    return this.apiService.save(item, this.path);
+    return this.apiService.save(item, this.path).pipe(tap(createdItem => {
+      this.items.unshift(createdItem);
+      this.notifyChange();
+    }));
   }
 
-  getAll(): Observable<Item[]> {
-    return this.apiService.get(this.path);
+  getAll(): void {
+    this.apiService.get<Item[]>(this.path).pipe(first()).subscribe(items => {
+      this.items = items;
+      this.notifyChange();
+    });
   }
 
   getOne(id: string): Observable<Item> {
     return this.apiService.get(this.path + '/' + id);
+  }
+
+  notifyChange(): void {
+    this.items$.next(this.items);
   }
 
 }

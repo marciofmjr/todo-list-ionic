@@ -18,7 +18,6 @@ export class CreateItemComponent implements OnInit {
   save(): void {
     this.itemApiService.create({ title: this.inputTitle }).subscribe(item => {
       this.inputTitle = '';
-      this.itemApiService.reload();
     });
   }
 
