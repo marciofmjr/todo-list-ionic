@@ -10,9 +10,9 @@ import { Item } from '../models/item.model';
 })
 export class ItemApiService {
 
-  path = 'items';
-  items$ = new Subject<Item[]>();
-  items: Item[];
+  private items$ = new Subject<Item[]>();
+  private items: Item[];
+  private path = 'items';
 
   constructor(private apiService: ApiService) { }
 
@@ -36,6 +36,10 @@ export class ItemApiService {
 
   updateDone(id: string, done: boolean) {
     return this.apiService.patch({ id, done }, this.path);
+  }
+
+  updateTitle(id: string, title: string) {
+    return this.apiService.patch({ id, title }, this.path);
   }
 
   search(searchText: string): void {

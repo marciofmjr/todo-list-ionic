@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Item } from './../../models/item.model';
 import { ItemApiService } from './../../services/item-api.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-item',
@@ -21,7 +22,29 @@ export class ListItemComponent implements OnInit {
   ngOnInit() {}
 
   changed(item: Item): void {
-    this.itemApiService.updateDone(item.id, item.done).subscribe();
+    this.itemApiService.updateDone(item.id, item.done).pipe(first()).subscribe();
+  }
+
+  async edit(item: Item, slidingItem: IonItemSliding): Promise<void> {
+    const prompt = await this.alertController.create({
+        header: 'Update',
+        message: 'Change item title',
+        inputs: [{ name: 'title', placeholder: 'Title', value: item.title }],
+        buttons: [{
+          text: 'Cancel',
+          handler: () => slidingItem.close()
+        },
+        {
+            text: 'Save',
+            handler: data => {
+              slidingItem.close();
+              this.itemApiService.updateTitle(item.id, data.title).pipe(first()).subscribe();
+              item.title = data.title;
+            }
+        }
+        ]
+    });
+    await prompt.present();
   }
 
   async delete(id: string, slidingItem: IonItemSliding): Promise<void> {
