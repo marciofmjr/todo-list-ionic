@@ -16,9 +16,11 @@ export class CreateItemComponent implements OnInit {
   ngOnInit() {}
 
   save(): void {
-    this.itemApiService.create({ title: this.inputTitle }).subscribe(item => {
-      this.inputTitle = '';
-    });
+    if (this.inputTitle?.length) {
+      this.itemApiService.create({ title: this.inputTitle }).subscribe(item => {
+        this.inputTitle = '';
+      });
+    }
   }
 
 }

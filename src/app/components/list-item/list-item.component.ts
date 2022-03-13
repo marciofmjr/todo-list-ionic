@@ -38,8 +38,10 @@ export class ListItemComponent implements OnInit {
             text: 'Save',
             handler: data => {
               slidingItem.close();
-              this.itemApiService.updateTitle(item.id, data.title).pipe(first()).subscribe();
-              item.title = data.title;
+              if (data?.title?.length) {
+                this.itemApiService.updateTitle(item.id, data.title).pipe(first()).subscribe();
+                item.title = data.title;
+              }
             }
         }
         ]
