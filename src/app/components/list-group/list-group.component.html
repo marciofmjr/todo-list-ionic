@@ -7,3 +7,5 @@
 <ng-container *ngFor="let item of items">
   <app-list-item [item]="item" *ngIf="item.done === done"></app-list-item>
 </ng-container>
+
+<div class="no-items">none {{ done ? 'completed' : 'pending' }} items</div>
