@@ -1,5 +1,7 @@
+import { ItemApiService } from './../../services/item-api.service';
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-config',
@@ -8,7 +10,11 @@ import { ActionSheetController } from '@ionic/angular';
 })
 export class ConfigComponent implements OnInit {
 
-  constructor(private actionSheetController: ActionSheetController) { }
+  constructor(
+    private actionSheetController: ActionSheetController,
+    private alertController: AlertController,
+    private itemApiService: ItemApiService
+  ) { }
 
   ngOnInit() {}
 
@@ -20,9 +26,7 @@ export class ConfigComponent implements OnInit {
         text: 'Delete all items',
         role: 'destructive',
         icon: 'trash',
-        handler: () => {
-          console.log('Delete clicked');
-        }
+        handler: async () => await this.confirmDeleteAllItems()
       }, {
         text: 'Change style',
         icon: 'color-palette-outline',
@@ -35,6 +39,25 @@ export class ConfigComponent implements OnInit {
     await actionSheet.present();
 
     const { role, data } = await actionSheet.onDidDismiss();
+  }
+
+  async confirmDeleteAllItems(): Promise<Promise<void>> {
+    const prompt = await this.alertController.create({
+      header: 'Delete',
+      message: 'Are you sure to delete all items?',
+      buttons: [{
+        text: 'Cancel'
+      },
+      {
+        text: 'Save',
+        handler: () => this.deleteAllItems()
+      }]
+  });
+    await prompt.present();
+  }
+
+  deleteAllItems(): void {
+    this.itemApiService.deleteAll().pipe(first()).subscribe();
   }
 
 }
