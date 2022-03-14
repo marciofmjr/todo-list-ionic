@@ -22,7 +22,7 @@ export class ListItemComponent implements OnInit {
   ngOnInit() {}
 
   changed(item: Item): void {
-    this.itemApiService.updateDone(item.id, item.done).pipe(first()).subscribe();
+    this.itemApiService.updateDone(item.id, item.done).subscribe();
   }
 
   async edit(item: Item, slidingItem: IonItemSliding): Promise<void> {
@@ -39,7 +39,7 @@ export class ListItemComponent implements OnInit {
             handler: data => {
               slidingItem.close();
               if (data?.title?.length) {
-                this.itemApiService.updateTitle(item.id, data.title).pipe(first()).subscribe();
+                this.itemApiService.updateTitle(item.id, data.title).subscribe();
                 item.title = data.title;
               }
             }

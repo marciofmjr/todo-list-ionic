@@ -57,7 +57,7 @@ export class ConfigComponent implements OnInit {
   }
 
   deleteAllItems(): void {
-    this.itemApiService.deleteAll().pipe(first()).subscribe();
+    this.itemApiService.deleteAll().subscribe();
   }
 
 }

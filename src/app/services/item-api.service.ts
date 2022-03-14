@@ -58,7 +58,7 @@ export class ItemApiService {
   }
 
   getAll(): void {
-    this.apiService.get<Item[]>(this.path).pipe(first()).subscribe(items => {
+    this.apiService.get<Item[]>(this.path).subscribe(items => {
       this.items = items.map(item => {
         item.visible = true;
         return item;
