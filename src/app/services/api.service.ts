@@ -19,7 +19,7 @@ export class ApiService {
     return this.http.get(this.formatUrl(url), { params: httpParams }) as Observable<T>;
   }
 
-  delete<T>(id: string, url: string): Observable<T> {
+  delete<T>(url: string, id?: string): Observable<T> {
     return this.http.delete(this.formatUrl(url, id)) as Observable<T>;
   }
 

@@ -21,8 +21,15 @@ export class ItemApiService {
   }
 
   delete(id: string): Observable<Item> {
-    return this.apiService.delete<Item>(id, this.path).pipe(tap(deletedItem => {
+    return this.apiService.delete<Item>(this.path, id).pipe(tap(deletedItem => {
       this.items = this.items.filter((item) => item.id !== deletedItem.id);
+      this.notifyChange();
+    }));
+  }
+
+  deleteAll(): Observable<Item[]> {
+    return this.apiService.delete<Item[]>(this.path).pipe(tap(items => {
+      this.items = [];
       this.notifyChange();
     }));
   }
