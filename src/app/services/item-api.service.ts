@@ -11,7 +11,7 @@ import { Item } from '../models/item.model';
 export class ItemApiService {
 
   private items$ = new Subject<Item[]>();
-  private items: Item[];
+  private items: Item[] = [];
   private path = 'items';
 
   constructor(private apiService: ApiService) { }
@@ -41,12 +41,12 @@ export class ItemApiService {
     }));
   }
 
-  updateDone(id: string, done: boolean) {
-    return this.apiService.patch({ id, done }, this.path);
+  updateDone(id: string, done: boolean): Observable<Item> {
+    return this.apiService.patch<Item>({ id, done }, this.path);
   }
 
-  updateTitle(id: string, title: string) {
-    return this.apiService.patch({ id, title }, this.path);
+  updateTitle(id: string, title: string): Observable<Item> {
+    return this.apiService.patch<Item>({ id, title }, this.path);
   }
 
   search(searchText: string): void {
@@ -65,10 +65,6 @@ export class ItemApiService {
       });
       this.notifyChange();
     });
-  }
-
-  getOne(id: string): Observable<Item> {
-    return this.apiService.get(this.path + '/' + id);
   }
 
   notifyChange(): void {
