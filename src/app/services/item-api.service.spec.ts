@@ -10,26 +10,23 @@ describe('ItemApiService', () => {
   let service: ItemApiService;
   let httpTestingController: HttpTestingController;
 
-  const setup = async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ]
     });
     service = TestBed.inject(ItemApiService);
     httpTestingController = TestBed.inject(HttpTestingController);
-  };
+  });
 
-  it('should be created', async () => {
-    await setup();
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get items data', async () => {
-    await setup();
+  it('should get items data', () => {
     service.getItems().subscribe(items => expect(items).toEqual([]));
   });
 
-  it('calling delete, should return the deleted item and call notifyChanges', async () => {
-    await setup();
+  it('calling delete, should return the deleted item and call notifyChanges', () => {
     spyOn(service, 'notifyChange');
 
     service.delete(deleteResponseMock.id).subscribe(item => {
@@ -42,8 +39,7 @@ describe('ItemApiService', () => {
     req.flush(deleteResponseMock);
   });
 
-  it('calling deleteAll, should return empty item array and call notifyChanges', async () => {
-    await setup();
+  it('calling deleteAll, should return empty item array and call notifyChanges', () => {
     spyOn(service, 'notifyChange');
 
     service.deleteAll().subscribe(items => {
@@ -56,8 +52,7 @@ describe('ItemApiService', () => {
     req.flush([]);
   });
 
-  it('calling create, should return the created item and call notifyChanges', async () => {
-    await setup();
+  it('calling create, should return the created item and call notifyChanges', () => {
     spyOn(service, 'notifyChange');
 
     service.create(createBodyMock).subscribe(item => {
@@ -70,8 +65,7 @@ describe('ItemApiService', () => {
     req.flush(createResponseMock);
   });
 
-  it('calling updateDone, should return updated item', async () => {
-    await setup();
+  it('calling updateDone, should return updated item', () => {
     spyOn(service, 'notifyChange');
 
     service.updateDone(updateDoneBodyMock.id, updateDoneBodyMock.done).subscribe(item => {
@@ -83,8 +77,7 @@ describe('ItemApiService', () => {
     req.flush(updateDoneResponseMock);
   });
 
-  it('calling updateTitle, should return updated item', async () => {
-    await setup();
+  it('calling updateTitle, should return updated item', () => {
     spyOn(service, 'notifyChange');
 
     service.updateTitle(updateTitleBodyMock.id, updateTitleBodyMock.title).subscribe(item => {
@@ -96,8 +89,7 @@ describe('ItemApiService', () => {
     req.flush(updateTitleResponseMock);
   });
 
-  it('calling getAll, should return an array of items and call notifyChanges', async () => {
-    await setup();
+  it('calling getAll, should return an array of items and call notifyChanges', () => {
     spyOn(service, 'notifyChange');
 
     service.getAll();
