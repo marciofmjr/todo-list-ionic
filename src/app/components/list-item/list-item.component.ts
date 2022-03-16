@@ -11,13 +11,12 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./list-item.component.sass'],
 })
 export class ListItemComponent implements OnInit {
-
   @Input() item: Item;
 
   constructor(
     private itemApiService: ItemApiService,
     public alertController: AlertController
-  ) { }
+  ) {}
 
   ngOnInit() {}
 
@@ -27,24 +26,25 @@ export class ListItemComponent implements OnInit {
 
   async edit(item: Item, slidingItem: IonItemSliding): Promise<void> {
     const prompt = await this.alertController.create({
-        header: 'Update',
-        message: 'Change item title',
-        inputs: [{ name: 'title', placeholder: 'Title', value: item.title }],
-        buttons: [{
+      header: 'Update',
+      message: 'Change item title',
+      inputs: [{ name: 'title', placeholder: 'Title', value: item.title }],
+      buttons: [
+        {
           text: 'Cancel',
-          handler: () => slidingItem.close()
+          handler: () => slidingItem.close(),
         },
         {
-            text: 'Save',
-            handler: data => {
-              slidingItem.close();
-              if (data?.title?.length) {
-                this.itemApiService.updateTitle(item.id, data.title).subscribe();
-                item.title = data.title;
-              }
+          text: 'Save',
+          handler: (data) => {
+            slidingItem.close();
+            if (data?.title?.length) {
+              this.itemApiService.updateTitle(item.id, data.title).subscribe();
+              item.title = data.title;
             }
-        }
-        ]
+          },
+        },
+      ],
     });
     await prompt.present();
   }
@@ -58,14 +58,14 @@ export class ListItemComponent implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => slidingItem.close()
-        }, {
+          handler: () => slidingItem.close(),
+        },
+        {
           text: 'Yes, delete',
-          handler: () => this.itemApiService.delete(id).subscribe()
-        }
-      ]
+          handler: () => this.itemApiService.delete(id).subscribe(),
+        },
+      ],
     });
     await alert.present();
   }
-
 }
