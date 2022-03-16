@@ -7,6 +7,21 @@ export const itemMock: Item = {
   createdAt: '2022-03-15T00:16:28.028Z',
 };
 
+export const itemsMock: Item[] = [
+  {
+    id: '07928701-d923-4897-b63c-05e4c6141f06',
+    title: 'buy food',
+    done: true,
+    createdAt: '2022-03-15T00:16:28.028Z',
+  },
+  {
+    id: '36356f29-a172-4b79-8016-010a7559ce37',
+    title: 'buy notebook',
+    done: false,
+    createdAt: '2022-03-15T00:16:28.028Z',
+  },
+];
+
 export const getAllResponseMock: Item[] = [
   {
     id: '9491c969-21e2-4a10-804d-19011d4c473e',
