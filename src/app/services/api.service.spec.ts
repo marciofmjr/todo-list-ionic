@@ -69,6 +69,17 @@ describe('ApiService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(getApiResponseMock);
   });
+  it('calling get with params, should return expected elements', () => {
+    service.get('items', { active: true }).subscribe((response) => {
+      expect(response).toBe(getApiResponseMock);
+    });
+
+    const req = httpTestingController.expectOne(
+      `${environment.apiBaseUrl}/items?active=true`
+    );
+    expect(req.request.method).toEqual('GET');
+    req.flush(getApiResponseMock);
+  });
 
   it('calling delete, should return deleted element', () => {
     service.delete('items', deleteApiResponseMock.id).subscribe((item) => {
