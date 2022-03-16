@@ -13,6 +13,7 @@
     "test:browser": "ng test",
     "test:watch": "ng test --progress --watch",
     "test:dev": "ng test --progress --watch --browsers ChromeHeadless",
+    "test:coverage": "ng test --no-watch --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
