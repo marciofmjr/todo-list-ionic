@@ -8,16 +8,14 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./search-bar.component.sass'],
 })
 export class SearchBarComponent implements OnInit {
-
   searchText: string;
   searchTextControl = new FormControl();
 
-  constructor(private itemApiService: ItemApiService) { }
+  constructor(private itemApiService: ItemApiService) {}
 
   ngOnInit() {
-    this.searchTextControl.valueChanges.subscribe(searchText => {
+    this.searchTextControl.valueChanges.subscribe((searchText) => {
       this.itemApiService.search(searchText);
     });
   }
-
 }
