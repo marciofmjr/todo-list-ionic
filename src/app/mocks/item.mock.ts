@@ -1,5 +1,12 @@
 import { Item } from '../models/item.model';
 
+export const itemMock: Item = {
+  id: 'ace3156d-22bf-405f-a6e6-173a0c9ed163',
+  title: 'visit parents',
+  done: true,
+  createdAt: '2022-03-15T00:16:28.028Z',
+};
+
 export const getAllResponseMock: Item[] = [
   {
     id: '9491c969-21e2-4a10-804d-19011d4c473e',
