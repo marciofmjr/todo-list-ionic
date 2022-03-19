@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Item } from './../../models/item.model';
 import { ItemApiService } from './../../services/item-api.service';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-item',
@@ -25,24 +24,16 @@ export class ListItemComponent implements OnInit {
   }
 
   async edit(item: Item, slidingItem: IonItemSliding): Promise<void> {
+    slidingItem.close();
     const prompt = await this.alertController.create({
       header: 'Update',
       message: 'Change item title',
       inputs: [{ name: 'title', placeholder: 'Title', value: item.title }],
       buttons: [
-        {
-          text: 'Cancel',
-          handler: () => slidingItem.close(),
-        },
+        { text: 'Cancel' },
         {
           text: 'Save',
-          handler: (data) => {
-            slidingItem.close();
-            if (data?.title?.length) {
-              this.itemApiService.updateTitle(item.id, data.title).subscribe();
-              item.title = data.title;
-            }
-          },
+          handler: (data) => this.updateTitle(item, data.title),
         },
       ],
     });
@@ -50,16 +41,12 @@ export class ListItemComponent implements OnInit {
   }
 
   async delete(id: string, slidingItem: IonItemSliding): Promise<void> {
+    slidingItem.close();
     const alert = await this.alertController.create({
       header: 'Delete',
       message: 'Delete this item?',
       buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => slidingItem.close(),
-        },
+        { text: 'Cancel' },
         {
           text: 'Yes, delete',
           handler: () => this.itemApiService.delete(id).subscribe(),
@@ -67,5 +54,12 @@ export class ListItemComponent implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  updateTitle(item: Item, title?: string): void {
+    if (title?.length) {
+      this.itemApiService.updateTitle(item.id, title).subscribe();
+      item.title = title;
+    }
   }
 }
