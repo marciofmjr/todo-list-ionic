@@ -1,8 +1,8 @@
-import { Observable, Subject } from 'rxjs';
+import { ItemFacade } from './../../domains/item/item-facade';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
-import { Item } from './../../models/item.model';
-import { ItemApiService } from './../../services/item-api.service';
+import { Item } from '../../domains/item/item.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,26 +10,13 @@ import { ItemApiService } from './../../services/item-api.service';
   styleUrls: ['./dashboard.page.sass'],
 })
 export class DashboardPage implements OnInit {
-
-  items: Item[];
+  items$: Observable<Item[]>;
   atLeastOneVisible = true;
 
-  constructor(private itemApiService: ItemApiService) { }
+  constructor(private itemFacade: ItemFacade) {}
 
   ngOnInit() {
-    this.setItems();
-    this.reload();
+    this.items$ = this.itemFacade.items();
+    this.itemFacade.get().subscribe();
   }
-
-  setItems(): void {
-    this.itemApiService.getItems().subscribe(items => {
-      this.items = items;
-      this.atLeastOneVisible = this.items.some(item => item.visible);
-    });
-  }
-
-  reload(): void {
-    this.itemApiService.getAll();
-  }
-
 }

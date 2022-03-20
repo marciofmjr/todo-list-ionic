@@ -4,7 +4,7 @@
   </ion-label>
 </ion-item-divider>
 
-<ng-container *ngFor="let item of items">
+<ng-container *ngFor="let item of items$ | async">
   <app-list-item [item]="item" *ngIf="item.done === done"></app-list-item>
 </ng-container>
 

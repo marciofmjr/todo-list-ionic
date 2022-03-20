@@ -1,6 +1,7 @@
-import { ItemApiService } from './../../services/item-api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
+import { ItemFacade } from './../../domains/item/item-facade';
 
 @Component({
   selector: 'app-search-bar',
@@ -11,11 +12,11 @@ export class SearchBarComponent implements OnInit {
   searchText: string;
   searchTextControl = new FormControl();
 
-  constructor(private itemApiService: ItemApiService) {}
+  constructor(private itemFacade: ItemFacade) {}
 
   ngOnInit() {
-    this.searchTextControl.valueChanges.subscribe((searchText) => {
-      this.itemApiService.search(searchText);
+    this.searchTextControl.valueChanges.subscribe((searchText: string) => {
+      this.itemFacade.search(searchText);
     });
   }
 }

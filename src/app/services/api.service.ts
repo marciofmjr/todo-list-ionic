@@ -4,19 +4,22 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   save<T extends { id?: string }>(data: T, url: string): Observable<T> {
-    return data.id?.length ? this.put(data, url + '/' + data.id) : this.post(data, url);
+    return data.id?.length
+      ? this.put(data, url + '/' + data.id)
+      : this.post(data, url);
   }
 
   get<T>(url: string, params?: any): Observable<T> {
     const httpParams = this.formatParams(params);
-    return this.http.get(this.formatUrl(url), { params: httpParams }) as Observable<T>;
+    return this.http.get(this.formatUrl(url), {
+      params: httpParams,
+    }) as Observable<T>;
   }
 
   delete<T>(url: string, id?: string): Observable<T> {
@@ -53,5 +56,4 @@ export class ApiService {
 
     return httpParams;
   }
-
 }

@@ -1,6 +1,5 @@
+import { ItemFacade } from './../../domains/item/item-facade';
 import { Component, OnInit } from '@angular/core';
-
-import { ItemApiService } from './../../services/item-api.service';
 
 @Component({
   selector: 'app-create-item',
@@ -10,17 +9,15 @@ import { ItemApiService } from './../../services/item-api.service';
 export class CreateItemComponent implements OnInit {
   inputTitle: string;
 
-  constructor(private itemApiService: ItemApiService) {}
+  constructor(private itemFacade: ItemFacade) {}
 
   ngOnInit() {}
 
   save(): void {
     if (this.inputTitle.length) {
-      this.itemApiService
-        .create({ title: this.inputTitle })
-        .subscribe((item) => {
-          this.inputTitle = '';
-        });
+      this.itemFacade.create({ title: this.inputTitle }).subscribe(() => {
+        this.inputTitle = '';
+      });
     }
   }
 }

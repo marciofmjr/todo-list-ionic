@@ -1,16 +1,11 @@
-import { ItemApiService } from './../../services/item-api.service';
+import { ItemFacade } from './../../domains/item/item-facade';
+import { ItemStore } from 'src/app/domains/item/item.store';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  ComponentFixture,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { SearchBarComponent } from './search-bar.component';
-import { By } from '@angular/platform-browser';
 
 describe('SearchBarComponent', () => {
   let component: SearchBarComponent;
@@ -25,6 +20,7 @@ describe('SearchBarComponent', () => {
           HttpClientTestingModule,
           ReactiveFormsModule,
         ],
+        providers: [ItemStore],
       }).compileComponents();
 
       fixture = TestBed.createComponent(SearchBarComponent);
@@ -37,11 +33,11 @@ describe('SearchBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('given searchTextControl valueChanges, should call itemApiService search method', () => {
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'search').and.callThrough();
+  it('given searchTextControl valueChanges, should call itemFacade search method', () => {
+    const itemFacade = fixture.debugElement.injector.get(ItemFacade);
+    spyOn(itemFacade, 'search').and.callThrough();
 
-    fixture.componentRef.instance.searchTextControl.setValue('aaaa');
-    expect(itemApiService.search).toHaveBeenCalled();
+    fixture.componentRef.instance.searchTextControl.setValue('buy item');
+    expect(itemFacade.search).toHaveBeenCalled();
   });
 });
