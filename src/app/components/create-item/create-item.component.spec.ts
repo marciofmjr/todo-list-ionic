@@ -1,4 +1,6 @@
-import { ItemApiService } from './../../services/item-api.service';
+import { itemMock } from './../../domains/item/item.mock';
+import { ItemStore } from 'src/app/domains/item/item.store';
+import { ItemFacade } from './../../domains/item/item-facade';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -16,6 +18,7 @@ describe('CreateItemComponent', () => {
       TestBed.configureTestingModule({
         declarations: [CreateItemComponent],
         imports: [IonicModule.forRoot(), HttpClientTestingModule, FormsModule],
+        providers: [ItemStore],
       }).compileComponents();
 
       fixture = TestBed.createComponent(CreateItemComponent);
@@ -28,35 +31,28 @@ describe('CreateItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('calling save with empty inputTitle, should not call itemApiService.create method', () => {
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'create').and.callThrough();
+  it('calling save with empty inputTitle, should not call itemFacade.create method', () => {
+    const itemFacade = fixture.debugElement.injector.get(ItemFacade);
+    spyOn(itemFacade, 'create').and.callThrough();
 
     component.inputTitle = '';
     fixture.detectChanges();
 
     component.save();
 
-    expect(itemApiService.create).not.toHaveBeenCalled();
+    expect(itemFacade.create).not.toHaveBeenCalled();
   });
 
-  it('calling save with filled inputTitle, should call itemApiService.create method and clean inputTitle value', () => {
-    const itemMock = {
-      id: '6f7a6746-9795-4f7b-8262-4f2db8866711',
-      title: 'complete tasks',
-      done: true,
-      createdAt: '2022-03-13T00:16:28.028Z',
-    };
-
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'create').and.returnValue(of(itemMock));
+  it('calling save with filled inputTitle, should call itemFacade.create method and clean inputTitle value', () => {
+    const itemFacade = fixture.debugElement.injector.get(ItemFacade);
+    spyOn(itemFacade, 'create').and.returnValue(of(itemMock()));
 
     component.inputTitle = 'some item';
     fixture.detectChanges();
 
     component.save();
 
-    expect(itemApiService.create).toHaveBeenCalled();
+    expect(itemFacade.create).toHaveBeenCalled();
     expect(component.inputTitle).toBe('');
   });
 });

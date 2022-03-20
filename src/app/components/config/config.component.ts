@@ -1,7 +1,7 @@
-import { ItemApiService } from './../../services/item-api.service';
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, AlertController } from '@ionic/angular';
-import { first } from 'rxjs/operators';
+
+import { ItemFacade } from './../../domains/item/item-facade';
 
 @Component({
   selector: 'app-config',
@@ -12,7 +12,7 @@ export class ConfigComponent implements OnInit {
   constructor(
     private actionSheetController: ActionSheetController,
     private alertController: AlertController,
-    private itemApiService: ItemApiService
+    private itemFacade: ItemFacade
   ) {}
 
   ngOnInit() {}
@@ -56,6 +56,6 @@ export class ConfigComponent implements OnInit {
   }
 
   deleteAllItems(): void {
-    this.itemApiService.deleteAll().subscribe();
+    this.itemFacade.delete().subscribe();
   }
 }

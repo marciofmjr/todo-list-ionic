@@ -1,7 +1,8 @@
+import { ItemFacade } from './../../domains/item/item-facade';
+import { ItemStore } from 'src/app/domains/item/item.store';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from './../../pipes/pipes.module';
-import { itemMock } from './../../mocks/item.mock';
-import { ItemApiService } from './../../services/item-api.service';
+import { itemMock } from '../../domains/item/item.mock';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { IonicModule, AlertController, IonItemSliding } from '@ionic/angular';
@@ -22,6 +23,7 @@ describe('ListItemComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ListItemComponent],
       imports: [IonicModule.forRoot(), HttpClientTestingModule],
+      providers: [ItemStore],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListItemComponent);
@@ -39,6 +41,7 @@ describe('ListItemComponent', () => {
         PipesModule,
         FormsModule,
       ],
+      providers: [ItemStore],
       componentProperties,
     });
 
@@ -71,13 +74,13 @@ describe('ListItemComponent', () => {
     expect(cancelButton).toBeTruthy();
   });
 
-  it('calling changed, should call itemApiService updateDone method', () => {
+  it('calling changed, should call itemFacade patch method', () => {
     setup();
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'updateDone').and.callThrough();
+    const itemFacade = fixture.debugElement.injector.get(ItemFacade);
+    spyOn(itemFacade, 'patch').and.callThrough();
 
-    component.changed(itemMock);
-    expect(itemApiService.updateDone).toHaveBeenCalled();
+    component.changed(itemMock());
+    expect(itemFacade.patch).toHaveBeenCalled();
   });
 
   it('calling edit, should call alertController create method', () => {
@@ -85,7 +88,7 @@ describe('ListItemComponent', () => {
     const alertController = fixture.debugElement.injector.get(AlertController);
     spyOn(alertController, 'create').and.callThrough();
 
-    component.edit(itemMock, slidingItemMock as IonItemSliding);
+    component.edit(itemMock(), slidingItemMock as IonItemSliding);
     expect(alertController.create).toHaveBeenCalled();
   });
 
@@ -94,25 +97,25 @@ describe('ListItemComponent', () => {
     const alertController = fixture.debugElement.injector.get(AlertController);
     spyOn(alertController, 'create').and.callThrough();
 
-    component.delete(itemMock.id, slidingItemMock as IonItemSliding);
+    component.delete(itemMock().id, slidingItemMock as IonItemSliding);
     expect(alertController.create).toHaveBeenCalled();
   });
 
-  it('calling updateTitle, should call itemApiService updateTitle method', () => {
+  it('calling updateTitle, should call itemFacade patch method', () => {
     setup();
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'updateTitle').and.callThrough();
+    const itemFacade = fixture.debugElement.injector.get(ItemFacade);
+    spyOn(itemFacade, 'patch').and.callThrough();
 
-    component.updateTitle(itemMock, 'new title');
-    expect(itemApiService.updateTitle).toHaveBeenCalled();
+    component.updateTitle(itemMock(), 'new title');
+    expect(itemFacade.patch).toHaveBeenCalled();
   });
 
-  it('calling updateTitle without title, should not call itemApiService updateTitle method', () => {
+  it('calling updateTitle without title, should not call itemFacade patch method', () => {
     setup();
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'updateTitle').and.callThrough();
+    const itemFacade = fixture.debugElement.injector.get(ItemFacade);
+    spyOn(itemFacade, 'patch').and.callThrough();
 
-    component.updateTitle(itemMock);
-    expect(itemApiService.updateTitle).not.toHaveBeenCalled();
+    component.updateTitle(itemMock());
+    expect(itemFacade.patch).not.toHaveBeenCalled();
   });
 });

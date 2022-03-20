@@ -1,5 +1,6 @@
+import { Observable } from 'rxjs';
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import { Item } from 'src/app/models/item.model';
+import { Item } from 'src/app/domains/item/item.model';
 
 @Component({
   selector: 'app-list-group',
@@ -7,10 +8,9 @@ import { Item } from 'src/app/models/item.model';
   styleUrls: ['./list-group.component.sass'],
 })
 export class ListGroupComponent {
-
   @Input() title: string;
-  @Input() items: Item[];
+  @Input() items$: Observable<Item[]>;
   @Input() done: boolean;
 
-  constructor() { }
+  constructor() {}
 }

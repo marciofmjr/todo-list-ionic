@@ -1,5 +1,6 @@
-import { itemsMock } from './../../mocks/item.mock';
-import { ItemApiService } from './../../services/item-api.service';
+import { ItemStore } from 'src/app/domains/item/item.store';
+import { ItemFacade } from './../../domains/item/item-facade';
+import { itemsMock } from '../../domains/item/item.mock';
 import { LayoutModule } from './../../layout/layout.module';
 import { ComponentsModule } from './../../components/components.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -12,9 +13,14 @@ import { of } from 'rxjs';
 describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
+  let itemFacadeSpy: jasmine.SpyObj<ItemFacade>;
 
   beforeEach(
     waitForAsync(() => {
+      itemFacadeSpy = jasmine.createSpyObj('ItemFacade', {
+        get: of(itemsMock()),
+        items: of(itemsMock()),
+      });
       TestBed.configureTestingModule({
         declarations: [DashboardPage],
         imports: [
@@ -22,6 +28,10 @@ describe('DashboardPage', () => {
           HttpClientTestingModule,
           ComponentsModule,
           LayoutModule,
+        ],
+        providers: [
+          { provide: ItemFacade, useValue: itemFacadeSpy },
+          ItemStore,
         ],
       }).compileComponents();
 
@@ -35,12 +45,10 @@ describe('DashboardPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('calling setItems, should call itemApiService getItems', async () => {
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'getItems').and.returnValue(of(itemsMock));
-
-    component.setItems();
-
-    expect(itemApiService.getItems).toHaveBeenCalled();
+  it('onInit, should call itemFacade items method', () => {
+    expect(itemFacadeSpy.items).toHaveBeenCalled();
+  });
+  it('onInit, should call itemFacade get method', () => {
+    expect(itemFacadeSpy.get).toHaveBeenCalled();
   });
 });

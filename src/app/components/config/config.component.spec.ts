@@ -1,6 +1,12 @@
-import { ItemApiService } from './../../services/item-api.service';
+import { ItemFacade } from './../../domains/item/item-facade';
+import { ItemStore } from 'src/app/domains/item/item.store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import {
   IonicModule,
   ActionSheetController,
@@ -18,6 +24,7 @@ describe('ConfigComponent', () => {
       TestBed.configureTestingModule({
         declarations: [ConfigComponent],
         imports: [IonicModule.forRoot(), HttpClientTestingModule],
+        providers: [ItemStore],
       }).compileComponents();
 
       fixture = TestBed.createComponent(ConfigComponent);
@@ -30,15 +37,14 @@ describe('ConfigComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('calling showMenu, should call actionSheetController create method', () => {
+  it('calling showMenu, should call actionSheetController create method', fakeAsync(() => {
     const actionSheetController = fixture.debugElement.injector.get(
       ActionSheetController
     );
     spyOn(actionSheetController, 'create').and.callThrough();
-
     component.showMenu();
     expect(actionSheetController.create).toHaveBeenCalled();
-  });
+  }));
 
   it('calling confirmDeleteAllItems, should call alertController create method', () => {
     const alertController = fixture.debugElement.injector.get(AlertController);
@@ -48,11 +54,11 @@ describe('ConfigComponent', () => {
     expect(alertController.create).toHaveBeenCalled();
   });
 
-  it('calling deleteAllItems, should call itemApiService deleteAll method', () => {
-    const itemApiService = fixture.debugElement.injector.get(ItemApiService);
-    spyOn(itemApiService, 'deleteAll').and.callThrough();
+  it('calling deleteAllItems, should call itemApiService delete method', () => {
+    const itemFacade = fixture.debugElement.injector.get(ItemFacade);
+    spyOn(itemFacade, 'delete').and.callThrough();
 
     component.deleteAllItems();
-    expect(itemApiService.deleteAll).toHaveBeenCalled();
+    expect(itemFacade.delete).toHaveBeenCalled();
   });
 });

@@ -1,26 +1,31 @@
+import { ItemFacade } from './../../domains/item/item-facade';
 import { AlertController, IonItemSliding } from '@ionic/angular';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 
-import { Item } from './../../models/item.model';
-import { ItemApiService } from './../../services/item-api.service';
+import { Item } from '../../domains/item/item.model';
+import { ItemApiService } from './../../domains/item/item-api.service';
 
 @Component({
   selector: 'app-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.sass'],
 })
-export class ListItemComponent implements OnInit {
+export class ListItemComponent {
   @Input() item: Item;
 
   constructor(
-    private itemApiService: ItemApiService,
+    private itemFacade: ItemFacade,
     public alertController: AlertController
   ) {}
 
-  ngOnInit() {}
-
   changed(item: Item): void {
-    this.itemApiService.updateDone(item.id, item.done).subscribe();
+    this.itemFacade.patch({ id: item.id, done: item.done }, false).subscribe();
   }
 
   async edit(item: Item, slidingItem: IonItemSliding): Promise<void> {
@@ -49,7 +54,7 @@ export class ListItemComponent implements OnInit {
         { text: 'Cancel' },
         {
           text: 'Yes, delete',
-          handler: () => this.itemApiService.delete(id).subscribe(),
+          handler: () => this.itemFacade.delete(id).subscribe(),
         },
       ],
     });
@@ -58,8 +63,7 @@ export class ListItemComponent implements OnInit {
 
   updateTitle(item: Item, title?: string): void {
     if (title?.length) {
-      this.itemApiService.updateTitle(item.id, title).subscribe();
-      item.title = title;
+      this.itemFacade.patch({ id: item.id, title }).subscribe();
     }
   }
 }
