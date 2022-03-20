@@ -28,11 +28,6 @@ export class ConfigComponent implements OnInit {
           icon: 'trash',
           handler: async () => await this.confirmDeleteAllItems(),
         },
-        {
-          text: 'Change style',
-          icon: 'color-palette-outline',
-          data: 10,
-        },
       ],
     });
     await actionSheet.present();
