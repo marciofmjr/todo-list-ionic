@@ -2,7 +2,7 @@
 
 <br />
 <div align="center">
-  <img src="docs/images/node-logo-api.png" alt="Logo" width="80" height="80">
+  <img src="https://github.com/marciofmjr/todo-list-node-api/raw/master/docs/images/node-logo-api.png" alt="Logo" width="80" height="80">
   <h3 align="center">To Do List: <strong>PAINEL</strong></h3>
 </div>
 
