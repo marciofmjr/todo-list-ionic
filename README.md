@@ -6,6 +6,9 @@
   <h3 align="center">To Do List: <strong>PAINEL</strong></h3>
 </div>
 
+### Preview
+O projeto está publicado e pode ser acessado através do link: https://todo-list-ionic.vercel.app/
+
 ### Sobre o projeto
 
 Esse projeto foi desenvolvido com o intuito de estudar e melhorar as técnicas de desenvolvimento usando novas tecnologias, ferramentas e padrões.
